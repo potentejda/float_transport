@@ -1,21 +1,22 @@
-
-
 //######################################################################
 //# License: BSD-3-Clause
-//# Sample of my own proprietary over the UART protocol implemented                                     #
-//# on two boards of Arduino Uno. Tx and Rx (with Adafruit TFT).
+//# Sample of my own proprietary transport on top of UART like protocol
+//# over GPIO implemented on two boards of Arduino Uno. Tx 
+//# and Rx (with Adafruit TFT, consequently clean from graphics remaings
+//# which from it's base are a part of an another Arduino Uno with
+//# Adafruit TFT application).
 //# Currently Tx can send a float number towards Rx, which is the check
 //# of the protocol integrity. The transmission begins with
 //# synchronization symbol (in logs as: initial).
 //# All are seen on RS232 by USB port monitor.
-//# Tx file. With synchronization symbol.                                                                                     #
-//# The cables connection setup is as follows:                                                                             #
-//#       Board 1           Board 2                                                                                                   #
-//#          GND --------- GND                                                                                                     #
-//#          TX -------\                                                                                                                   #
-//#                          \---RX                                                                                                          #
-//#          RX------\                                                                                                                      #
-//#                        \---- TX                                                                                                          #
+//# Tx file. With synchronization symbol.                             
+//# The cables connection setup is as follows:                       
+//#       Board 1           Board 2                                   
+//#          GND --------- GND                                        
+//#          TX -------\                                              
+//#                          \---RX                                   
+//#          RX------\                                               
+//#                        \---- TX                                    
 //#     
 //# *a - is the floating point number sent
 //# *b is the floating point numer received
@@ -92,44 +93,6 @@ false
 byte eightbytebuffertosend[SENDBUFFERSIZE];
 
 byte protocol[PROTOCOLSIZE];
-
-// 0 - incomming line check - must be LOW to transmit from local TX
-#define PROTINIT 255 //repeat 8 times
-// LENGTH value in bytes
-#define ADDRESS 254 // + address line
-#define BODYFRAME 253
-#define FRTYPECLEAR 1
-#define FRTYPEASKFORSQUARE 2
-#define FRTYPEASKFORELLIPSE 3
-#define FRTYPESQUARE 4
-#define VALUESQUARELENGTH 64 //2 floates (4 bytes) - point * 4 - square, no color right now
-#define FRTYPEELLIPSE 5
-#define VALUESQUARELENGTH //2 floates - center, 2 floates - radiuses
-
-/** Graphics renderer
- * 
- * 
- */
-
-boolean dec;
-float xe = 0;
-float ye = 0;
-float ze = 5;
-float squareXY[] = { -0.5,-0.5,-0.5,  0.5,-0.5,-0.5,  0.5, 0.5,-0.5, -0.5,0.5,-0.5};
-float squareXYback[] = { -0.5,-0.5,-1.5,  0.5,-0.5,-1.5,  0.5, 0.5,-1.5, -0.5,0.5,-1.5 };
-float squareXZ[] = {0,0,0, 0,0,100, 100,0,100, 100, 0, 0};
-float squareYZ[] = {0,0,0, 0,100,0, 0,100,100, 0,100,0};
-
-float * render(float x, float y, float z, float * xy) {
-    float deltax = x - xe;
-    float deltay = y - ye;
-    float deltaz = z - ze;
-    float tgalpha = deltax / deltaz;
-    float tgbeta = deltay / deltaz;
-    xy[0] = ze * tgalpha;
-    xy[1] = ze * tgbeta;
-    return xy;
-}
 
 /************
  *  Sender receiver, slavetype
