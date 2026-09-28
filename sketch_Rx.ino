@@ -1,10 +1,10 @@
 //######################################################################
 //# License: BSD-3-Clause
-//# Rx file of th program. UART protocol shall receive the
-//# sychronization symbol (in logs as: initial)
+//# Rx file of th program. Tine, transport like an UART protocol in GPIO
+//# receives the sychronization symbol (in logs as: initial)
 //# and a floating number which currently
 //# is hardcoded in Tx as 1.60 . Rx file doesn't store this value.
-//# is it received from Tx and shown in the RS232 by USB port monitor.              
+//# is it received from Tx and shown in the RS232 by USB port monitor.
 //# *a - is the floating point number sent
 //# *b is the floating point numer received
 //# *a is set in the Tx code, but not in Rx.
@@ -76,19 +76,6 @@ ovf
 byte eightbytebufferreceived [RECEIVEBUFFERSIZE];
 
 byte protocol[PROTOCOLSIZE];
-
-// 0 - incomming line check - must be LOW to transmit from local TX
-#define PROTINIT 255 //repeat 8 times
-// LENGTH value in bytes
-#define ADDRESS 254 // + address line
-#define BODYFRAME 253
-#define FRTYPECLEAR 1
-#define FRTYPEASKFORSQUARE 2
-#define FRTYPEASKFORELLIPSE 3
-#define FRTYPESQUARE 4
-#define VALUESQUARELENGTH 64 //2 floates (4 bytes) - point * 4 - square, no color right now
-#define FRTYPEELLIPSE 5
-#define VALUESQUARELENGTH //2 floates - center, 2 floates - radiuses
 
 void setup() {
    
